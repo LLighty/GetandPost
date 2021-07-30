@@ -7,7 +7,8 @@ def get_parser():
     parse = argparse.ArgumentParser()
     parse.add_argument("--url", type=str, help="Specifies the website for the post or get request.")
     parse.add_argument("--prettify", help="Prints (and saves) the get request in a more human readable format.",
-                       action="store_true") 
+                       action="store_true")
+    parse.add_argument("--save", type=str, help="Saves the output to the specified out file")
     return parse
 
 

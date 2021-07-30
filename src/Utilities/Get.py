@@ -1,9 +1,14 @@
 import requests
+from bs4 import BeautifulSoup
+
+prettify_text = False
 
 
-def get_website_cli(address):
+def get_website_cli(address, variables):
+    set_variables(variables)
     data = get_website_data(address)
     print_website_data(data)
+    return data
 
 
 def get_website_data(address):
@@ -12,4 +17,18 @@ def get_website_data(address):
 
 
 def print_website_data(data):
-    print(data.text)
+    if prettify_text:
+        soup = BeautifulSoup(data.text)
+        print(soup.prettify())
+    else:
+        print(data.text)
+
+
+def set_variables(variables):
+    set_prettify(variables.prettify)
+
+
+def set_prettify(prettify_bool):
+    global prettify_text
+    print(prettify_bool)
+    prettify_text = prettify_bool
