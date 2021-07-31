@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 prettify_text = False
+headers = None
 
 
 def get_website_cli(address, variables):
@@ -12,7 +13,7 @@ def get_website_cli(address, variables):
 
 
 def get_website_data(address):
-    response = requests.get(address)
+    response = requests.get(address, headers=headers)
     return response
 
 

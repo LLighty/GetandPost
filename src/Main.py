@@ -5,10 +5,13 @@ from CLI.CommandLine import entry_point
 
 def get_parser():
     parse = argparse.ArgumentParser()
-    parse.add_argument("--url", type=str, help="Specifies the website for the post or get request.")
-    parse.add_argument("--prettify", help="Prints (and saves) the get request in a more human readable format.",
+    parse.add_argument('-u', "--url", type=str, help="Specifies the website for the post or get request.")
+    parse.add_argument('-pr', "--prettify", help="Prints (and saves) the get request in a more human readable format.",
                        action="store_true")
-    parse.add_argument("--save", type=str, help="Saves the output to the specified out file")
+    parse.add_argument('-s', "--save", type=str, help="Saves the output to the specified out file")
+    parse.add_argument('-H', "--headers", type=str, help="Sets the headers for the request")
+    parse.add_argument('-p', "--post", type=str, help="Specifies to conduct a Post Request with the data appended after"
+                                                      ". Data should be in the format 'var1:1,var2:2'")
     return parse
 
 
