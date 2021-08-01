@@ -1,7 +1,7 @@
 import argparse
 import sys
 from CLI.CommandLine import entry_point
-
+from GUI.GUI import init
 
 def get_parser():
     parse = argparse.ArgumentParser()
@@ -21,3 +21,5 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         entry_point(args)
+    else:
+        init(args)
