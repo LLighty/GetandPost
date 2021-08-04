@@ -14,7 +14,13 @@ HEADER_OPTIONS = [
     'Cache-Control'
 ]
 
+REQUEST_OPTIONS = [
+    'Get',
+    'Post'
+]
+
 current_header_option = HEADER_OPTIONS[0]
+current_request_option = REQUEST_OPTIONS[0]
 
 Header_Options_Set = {
     'Host': '',
@@ -136,19 +142,25 @@ class EntryPage(tk.Frame):
 
     def create_submit_widgets(self):
         submit_frame = tk.Frame(self)
-        submit_frame.pack(fill=tk.X)
+        submit_frame.pack(expand=1, fill=tk.BOTH)
+
+        request_option_variables = tk.StringVar(self)
+        request_option_variables.set(REQUEST_OPTIONS[0])
 
         # Init
+        self.request_options = tk.OptionMenu(submit_frame, request_option_variables, *REQUEST_OPTIONS,
+                                             command=self.update_request_header_index)
+        self.request_options.configure(width=6)
         self.button_submit_query = tk.Button(submit_frame, text="Submit Query", command=self.submit_query)
 
         # Layout
-        self.button_submit_query.grid(row=0, column=0)
+        self.request_options.place(relx=.38, rely=.25)
+        self.button_submit_query.place(relx=.50, rely=.26)
 
     def header_submit_callback(self):
-        # print(current_header_option)
         Header_Options_Set[current_header_option] = self.entry_header.get()
-        # print(Header_Options_Set[current_header_option])
         self.update_set_option_variables()
+        self.entry_header.delete(0, 'end')
 
     def update_option_header_index(self, value):
         global current_header_option
@@ -172,13 +184,62 @@ class EntryPage(tk.Frame):
     def submit_query(self):
         self.controller.show_page(DataPage)
 
+    def update_request_header_index(self, value):
+        global current_request_option
+        current_request_option = value
+
 
 class DataPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        self.create_widgets()
 
-        label = tk.Label(self, text="P2")
-        label.grid(row=1, column=1)
+    def create_widgets(self):
+        self.create_button_header_widgets()
+        self.create_text_widgets()
+        self.create_save_widgets()
+
+    def create_button_header_widgets(self):
+        button_header_frame = tk.Frame(self)
+        button_header_frame.pack(fill=tk.X)
+
+        # Init
+        self.button_body = tk.Button(button_header_frame, text="Body", width=32)
+        self.button_cookies = tk.Button(button_header_frame, text="Cookies", width=32)
+        self.button_headers = tk.Button(button_header_frame, text="Headers", width=32)
+
+        # Layout
+        self.button_body.grid(row=0, column=0, sticky='nesw')
+        self.button_cookies.grid(row=0, column=1, sticky='nesw')
+        self.button_headers.grid(row=0, column=2, sticky='nesw')
+
+    def create_text_widgets(self):
+        text_frame = tk.Frame(self)
+        text_frame.pack(fill=tk.X)
+
+        # Init
+        self.text_data = tk.Text(text_frame, height=35)
+
+        # Layout
+        self.text_data.grid(row=1, column=0, sticky="nsew")
+        text_frame.grid_columnconfigure(0, weight=1)
+
+    def create_save_widgets(self):
+        save_frame = tk.Frame(self)
+        save_frame.pack(fill=tk.X)
+        save_frame.place(relx=.23, rely=.85)
+
+        self.label_save = tk.Label(save_frame, text="Save Location:")
+        self.entry_save = tk.Entry(save_frame)
+        self.button_file_explorer = tk.Button(save_frame, text="...")
+        self.button_save = tk.Button(save_frame, text="Save")
+        self.button_back = tk.Button(save_frame, text="Return")
+
+        self.label_save.grid(row=0, column=0)
+        self.entry_save.grid(row=0, column=1)
+        self.button_file_explorer.grid(row=0, column=2)
+        self.button_save.grid(row=0, column=3)
+        self.button_back.grid(row=1, column=2)
 
 
 def dict_to_string(dictionary):
