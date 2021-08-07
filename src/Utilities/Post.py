@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 data_to_post = None
 
 
-def post_website_cli(address, variables):
+def post_website(address, variables):
     set_variables(variables)
     response = get_post_response(address)
     return response
@@ -17,6 +17,11 @@ def set_variables(variables):
 
 def get_post_response(address):
     response = requests.post(address, convert_data_to_object(data_to_post))
+    return response
+
+
+def get_post_response(address, headers, payload):
+    response = requests.post(address, headers=headers, payload=payload)
     return response
 
 

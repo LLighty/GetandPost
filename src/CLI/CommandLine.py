@@ -1,5 +1,5 @@
-from Utilities.Get import get_website_cli
-from Utilities.Post import post_website_cli
+from Utilities.Get import get_website
+from Utilities.Post import post_website
 from Utilities.Save import save_data
 import errno
 
@@ -15,15 +15,15 @@ def entry_point(args):
 def get_request(args):
     print("get request")
     website_address = get_address(args)
-    data = get_website_cli(website_address, args)
+    response = get_website(website_address, args)
     if args.save is not None:
-        save_data(data, args.save)
+        save_data(response, args.save)
 
 
 def post_request(args):
     print("post request")
     website_address = get_address
-    response = post_website_cli(website_address, args)
+    response = post_website(website_address, args)
 
 
 def check_http(address):

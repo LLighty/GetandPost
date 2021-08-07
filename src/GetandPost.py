@@ -3,6 +3,7 @@ import sys
 from CLI.CommandLine import entry_point
 from GUI.GUI import init
 
+
 def get_parser():
     parse = argparse.ArgumentParser()
     parse.add_argument('-u', "--url", type=str, help="Specifies the website for the post or get request.")
