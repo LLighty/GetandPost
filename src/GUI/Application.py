@@ -216,6 +216,9 @@ class EntryPage(tk.Frame):
         payload.clear()
         self.render_payload()
 
+    def clear_url(self):
+        self.entry_url.delete(0, 'end')
+
     def render_payload(self):
         self.text_payload.config(state=tk.NORMAL)
         self.text_payload.delete(1.0, "end")
@@ -230,6 +233,7 @@ class EntryPage(tk.Frame):
             data = get.get_website(address, get_filled_header_fields())
         if current_request_option == "Post":
             data = post.get_post_response(address, get_filled_header_fields(), payload)
+        self.controller.get_page(DataPage).display_body()
         self.controller.show_page(DataPage)
 
     def update_request_header_index(self, value):
@@ -249,7 +253,6 @@ class DataPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         self.create_widgets()
-        self.display_body()
 
     def create_widgets(self):
         self.create_button_header_widgets()
@@ -326,7 +329,7 @@ class DataPage(tk.Frame):
 
     def pretty_body(self):
         if self.current_mode_selected == self.modes[0]:
-            self.update_text_data(BeautifulSoup(data.text))
+            self.update_text_data(BeautifulSoup(data.text, "html.parser"))
 
     def open_file_explorer(self):
         filename = filedialog.asksaveasfilename(initialdir="/",
@@ -346,6 +349,7 @@ class DataPage(tk.Frame):
         global Header_Options_Set
         Header_Options_Set = HEADER_OPTIONS_SET_DEFAULT
         self.controller.get_page(EntryPage).update_set_option_variables()
+        self.controller.get_page(EntryPage).clear_url()
         self.controller.show_page(EntryPage)
 
 
